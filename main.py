@@ -1,9 +1,10 @@
 import os
+import sys
 from datetime import datetime
 import tkinter as tk
 
 
-
+platform = sys.platform
 disallow = [";", ":", "&", "*", "$"]
 # maybe i should improve disallow list xD
 def check():
@@ -13,8 +14,10 @@ def check():
 	if any(symbol in site for symbol in disallow):
 		status.config(text="Укажите существующий сайт!", fg="red")
 		return
-	#response = os.system("ping -c 1 " + site) macOS variant!
-	response = os.system("ping -n 1 " + site)
+	if platform == "darwin":
+		response = os.system("ping -c 1 " + site)
+	else:
+		response = os.system("ping -n 1 " + site)
 
 	if response == 0:
 		with open("ping.log", "a") as file:
@@ -24,9 +27,8 @@ def check():
 		with open("ping.log", "a") as file:
 			file.write(f"[{current_time}] {site} - DOWN\n")
 		status.config(text="Нет связи с сайтом", fg="red")
-		# os.system("osascript -e 'display notification \"Сервер лежит, паника!\" with title \"Network Alert\" sound name \"Glass\"'")
-		# Uncomment, if you use macOS
-		# Leave commented if you NOT use macOS!!!
+		if platform == "darwin":
+			os.system("osascript -e 'display notification \"Сервер лежит, паника!\" with title \"Network Alert\" sound name \"Glass\"'")
 
 root = tk.Tk()
 root.title("Ping GUI")
