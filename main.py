@@ -5,14 +5,8 @@ import tkinter as tk
 
 
 disallow = [";", ":", "&", "*", "$"]
-GREEN = "\033[92m"
-RED = "\033[91m"
-RESET = "\033[0m"  # Этот код сбрасывает цвет обратно на стандартный
+# maybe i should improve disallow list xD
 
-# while True:
-# 	hostname = str(input("Введите сайт для проверки, либо введите exit для выхода: "))
-# 	if hostname == "exit":
-# 		exit()
 def check():
 	current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	site = entry.get()
@@ -25,14 +19,14 @@ def check():
 	if response == 0:
 		with open("ping.log", "a") as file:
 			file.write(f"[{current_time}] {site} - OK\n")
-		# print(GREEN + "Все работает стабильно!" + RESET)
 		status.config(text="Все работает стабильно!", fg="green")
 	else:
 		with open("ping.log", "a") as file:
 			file.write(f"[{current_time}] {site} - DOWN\n")
-		# print(RED + "Нет связи с сайтом" + RESET)
 		status.config(text="Нет связи с сайтом", fg="red")
-		os.system("osascript -e 'display notification \"Сервер лежит, паника!\" with title \"Network Alert\" sound name \"Glass\"'")
+		# os.system("osascript -e 'display notification \"Сервер лежит, паника!\" with title \"Network Alert\" sound name \"Glass\"'")
+		# Uncomment, if you use macOS
+		# Leave commented if you NOT use macOS!!!
 
 
 root = tk.Tk()
