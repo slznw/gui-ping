@@ -6,15 +6,15 @@ import tkinter as tk
 
 disallow = [";", ":", "&", "*", "$"]
 # maybe i should improve disallow list xD
-
 def check():
 	current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 	site = entry.get()
 	print(site)
 	if any(symbol in site for symbol in disallow):
-	 	status.config(text="Укажите существующий сайт!", fg="red")
-	 	return
-	response = os.system("ping -c 1 " + site)
+		status.config(text="Укажите существующий сайт!", fg="red")
+		return
+	#response = os.system("ping -c 1 " + site) macOS variant!
+	response = os.system("ping -n 1 " + site)
 
 	if response == 0:
 		with open("ping.log", "a") as file:
@@ -28,7 +28,6 @@ def check():
 		# Uncomment, if you use macOS
 		# Leave commented if you NOT use macOS!!!
 
-
 root = tk.Tk()
 root.title("Ping GUI")
 root.geometry("300x200")
@@ -41,4 +40,9 @@ entry.pack()
 but = tk.Button(root,text="Проверить!", command=check)
 but.pack()
 root.mainloop()
-mainloop()
+
+
+
+
+
+
